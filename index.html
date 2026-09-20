@@ -1,0 +1,1275 @@
+<!DOCTYPE html>
+<html lang="es" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para la Mocosa — La Leyenda de Hyrule</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Premium Google Fonts: Outfit, Plus Jakarta Sans & Cinzel -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
+
+    <!-- Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        outfit: ['Outfit', 'sans-serif'],
+                        jakarta: ['Plus Jakarta Sans', 'sans-serif'],
+                        cinzel: ['Cinzel', 'serif'],
+                        sans: ['Outfit', 'Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        hyrule: {
+                            deepVoid: '#020617',
+                            cobaltNight: '#070d24',
+                            sapphire: '#0f172a',
+                            royalBlue: '#1e293b',
+                            gold: '#f59e0b',
+                            brightGold: '#fbbf24',
+                            paleGold: '#fef08a',
+                            cyan: '#38bdf8',
+                            silentBlue: '#38bdf8',
+                            silentWhite: '#e0f2fe',
+                        }
+                    },
+                    boxShadow: {
+                        'glow-gold': '0 0 35px rgba(245, 158, 11, 0.45), 0 0 70px rgba(245, 158, 11, 0.2)',
+                        'glow-cyan': '0 0 35px rgba(56, 189, 248, 0.45), 0 0 70px rgba(56, 189, 248, 0.2)',
+                    },
+                    animation: {
+                        'float-slow': 'floatSlow 7s ease-in-out infinite',
+                        'pulse-glow': 'pulseGlow 3s ease-in-out infinite',
+                        'spin-slow': 'spin 28s linear infinite',
+                        'shimmer': 'shimmer 4s linear infinite',
+                        'bounce-slow': 'bounceSlow 2.2s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        floatSlow: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-14px)' },
+                        },
+                        pulseGlow: {
+                            '0%, 100%': { opacity: '0.4' },
+                            '50%': { opacity: '0.9' },
+                        },
+                        bounceSlow: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(8px)' },
+                        },
+                        shimmer: {
+                            '0%': { backgroundPosition: '-200% 0' },
+                            '100%': { backgroundPosition: '200% 0' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Mobile Touch Optimization */
+        * {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .sheikah-slider, #curvedSliderContainer {
+            touch-action: none;
+        }
+
+        /* Global Uniform Fixed Background */
+        html {
+            scroll-behavior: smooth;
+            height: 100%;
+        }
+
+        body {
+            font-family: 'Outfit', 'Plus Jakarta Sans', sans-serif;
+            background-color: #020617;
+            background-image: 
+                radial-gradient(ellipse at 50% 15%, rgba(56, 189, 248, 0.14) 0%, transparent 60%),
+                radial-gradient(ellipse at 50% 85%, rgba(245, 158, 11, 0.09) 0%, transparent 60%),
+                linear-gradient(180deg, #020617 0%, #070d24 50%, #020617 100%);
+            background-attachment: fixed;
+            color: #f8fafc;
+            overflow-x: hidden;
+            overflow-y: auto;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Snap Section Container */
+        .snap-section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 5rem 1.5rem 3rem 1.5rem;
+            box-sizing: border-box;
+            position: relative;
+        }
+
+        /* Custom Scrollbar */
+        ::selection {
+            background-color: #38bdf8;
+            color: #020617;
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #020617;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 4px;
+            border: 1px solid rgba(56, 189, 248, 0.3);
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #38bdf8;
+        }
+
+        /* Content Panels */
+        .content-panel {
+            background: rgba(15, 23, 42, 0.45);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-top: 1px solid rgba(56, 189, 248, 0.2);
+            border-bottom: 1px solid rgba(56, 189, 248, 0.2);
+            padding: 2.5rem 2rem;
+            position: relative;
+            width: 100%;
+        }
+
+        .content-panel-gold {
+            background: rgba(15, 23, 42, 0.55);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-top: 1px solid rgba(245, 158, 11, 0.25);
+            border-bottom: 1px solid rgba(245, 158, 11, 0.25);
+            padding: 2.5rem 2rem;
+            position: relative;
+            width: 100%;
+        }
+
+        /* Ultra-Soft Reveal Animation */
+        .reveal-node {
+            opacity: 0;
+            transform: translateY(40px) scale(0.97);
+            transition: opacity 1.4s cubic-bezier(0.16, 1, 0.3, 1), transform 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: opacity, transform;
+        }
+
+        .reveal-node.is-visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        /* Sheikah Line Divider */
+        .sheikah-divider {
+            background: linear-gradient(90deg, transparent 0%, rgba(56, 189, 248, 0.5) 50%, transparent 100%);
+            height: 1px;
+            width: 100%;
+        }
+
+        /* Gold Shimmer Text Effect */
+        .text-shimmer-gold {
+            background: linear-gradient(90deg, #f59e0b 0%, #fef08a 50%, #f59e0b 100%);
+            background-size: 200% auto;
+            color: transparent;
+            -webkit-background-clip: text;
+            background-clip: text;
+            animation: shimmer 3.5s linear infinite;
+        }
+
+        /* Interactive Pedestal Active Glow */
+        .sword-active-glow {
+            filter: drop-shadow(0 0 30px rgba(56, 189, 248, 0.95)) drop-shadow(0 0 60px rgba(245, 158, 11, 0.75));
+        }
+
+        /* Ambient Pointer Tracker */
+        #cursorGlow {
+            pointer-events: none;
+            position: fixed;
+            width: 350px;
+            height: 350px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(56, 189, 248, 0.08) 0%, rgba(245, 158, 11, 0.025) 40%, transparent 70%);
+            transform: translate(-50%, -50%);
+            z-index: 2;
+            transition: width 0.3s ease, height 0.3s ease;
+        }
+
+        /* Tactile Sheikah Slide Control styling */
+        .sheikah-slider {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 12px;
+            border-radius: 9999px;
+            background: #0f172a;
+            border: 1px solid rgba(56, 189, 248, 0.4);
+            outline: none;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.6);
+        }
+        .sheikah-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #fbbf24 0%, #f59e0b 100%);
+            border: 2px solid #fef08a;
+            box-shadow: 0 0 15px rgba(245, 158, 11, 0.8);
+            cursor: grab;
+            transition: transform 0.15s ease;
+        }
+        .sheikah-slider::-webkit-slider-thumb:active {
+            cursor: grabbing;
+            transform: scale(1.2);
+        }
+
+        .sheikah-slider-cyan::-webkit-slider-thumb {
+            background: radial-gradient(circle, #e0f2fe 0%, #38bdf8 100%);
+            border: 2px solid #ffffff;
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.85);
+        }
+    </style>
+</head>
+
+<body class="antialiased">
+
+    <!-- Ambient Cursor Track Glow -->
+    <div id="cursorGlow"></div>
+
+    <!-- Navigation Header -->
+    <header class="fixed top-0 left-0 right-0 z-50 px-4 sm:px-8 py-4 backdrop-blur-xl bg-hyrule-deepVoid/80 border-b border-hyrule-cyan/20">
+        <div class="max-w-5xl mx-auto flex justify-between items-center">
+            <!-- Brand Emblem Badge -->
+            <div class="flex items-center gap-3">
+                <div class="relative flex items-center justify-center w-8 h-8">
+                    <svg class="w-7 h-7 text-hyrule-gold animate-pulse-glow" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2L1 21h22L12 2zm0 4.2L18.8 18H5.2L12 6.2z"/>
+                    </svg>
+                </div>
+                <div class="flex flex-col">
+                    <span class="font-cinzel text-xs sm:text-sm tracking-widest text-hyrule-gold uppercase font-bold">Hyrule Archives</span>
+                    <span class="font-outfit text-[10px] text-hyrule-cyan tracking-wider uppercase font-semibold opacity-85">Chronicles of Time</span>
+                </div>
+            </div>
+
+            <!-- Action Controls -->
+            <div class="flex items-center gap-3">
+                <!-- Audio Synthesizer Toggle -->
+                <button id="soundToggle" class="flex items-center gap-2.5 text-xs font-outfit tracking-widest px-4 py-2 rounded-full border border-hyrule-gold/50 bg-hyrule-sapphire/90 hover:bg-hyrule-royalBlue text-hyrule-gold transition-all duration-300 shadow-lg cursor-pointer">
+                    <span class="relative flex h-2 w-2">
+                      <span id="audioPing" class="animate-ping absolute inline-flex h-full w-full rounded-full bg-hyrule-gold"></span>
+                      <span id="audioDot" class="relative inline-flex rounded-full h-2 w-2 bg-hyrule-gold"></span>
+                    </span>
+                    <span id="soundText" class="hidden sm:inline font-bold uppercase">Arpa de Hyrule (Activa)</span>
+                </button>
+
+                <!-- Copy Letter Button -->
+                <button id="copyBtn" class="p-2.5 rounded-full border border-hyrule-gold/40 bg-hyrule-gold/10 hover:bg-hyrule-gold/20 text-hyrule-gold transition-all duration-300 hover:scale-105 cursor-pointer" title="Copiar carta completa">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="relative z-10 w-full max-w-4xl mx-auto">
+
+        <!-- SECTION 1: HERO / TITLE -->
+        <section class="snap-section reveal-node">
+            <div class="text-center max-w-3xl w-full">
+                <div class="relative inline-block my-4">
+                    <div class="absolute -inset-6 rounded-full border border-hyrule-cyan/25 animate-spin-slow pointer-events-none"></div>
+                    <div class="relative p-6 sm:p-7 rounded-full bg-hyrule-sapphire/90 border border-hyrule-gold/50 shadow-glow-gold animate-float-slow">
+                        <svg class="w-16 h-16 sm:w-20 sm:h-20 text-hyrule-gold mx-auto" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2L1 21h22L12 2zm0 4.2L18.8 18H5.2L12 6.2z"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <h1 class="font-cinzel text-6xl sm:text-8xl md:text-9xl font-black text-shimmer-gold tracking-tight uppercase mb-3 drop-shadow-2xl">
+                    Mocosa.
+                </h1>
+                <p class="font-outfit text-xs sm:text-base tracking-[0.3em] text-hyrule-cyan uppercase font-bold">
+                    Una Leyenda Guardada en el Tiempo
+                </p>
+                <div class="sheikah-divider my-8"></div>
+            </div>
+
+            <!-- Minijuego 1: Barra Deslizable Dorada Recta -->
+            <div class="mt-4 flex flex-col items-center gap-3 w-full max-w-xs">
+                <span class="font-outfit text-[11px] tracking-widest text-hyrule-gold uppercase font-bold">Desliza la llave de Hyrule ➔</span>
+                <input 
+                    type="range" 
+                    min="0" 
+                    max="100" 
+                    value="0" 
+                    id="slider1" 
+                    class="sheikah-slider" 
+                    oninput="handleSlideUnlock(this, 1)"
+                />
+            </div>
+        </section>
+
+        <!-- SECTION 2: CHAPTER 1 (Métrica del Insomnio) -->
+        <section class="snap-section reveal-node">
+            <div class="content-panel rounded-2xl w-full">
+                <p class="text-xl sm:text-3xl md:text-4xl text-slate-100 font-jakarta leading-relaxed font-light mb-10 max-w-3xl mx-auto">
+                    En el poco tiempo que te conozco dediqué gran mayoría de mi insomnio en vos. Cálidas noches donde se proyectan risas, un sentimiento efímero en momentos fugaces que quedarán abrazando el recuerdo.
+                </p>
+
+                <!-- Insomnia Gauge Ring -->
+                <div class="bg-hyrule-deepVoid/90 rounded-xl p-5 border border-hyrule-cyan/30 flex flex-col sm:flex-row items-center justify-between gap-6 max-w-3xl mx-auto">
+                    <div class="text-center sm:text-left">
+                        <span class="font-outfit text-xs font-bold text-hyrule-gold tracking-widest uppercase block mb-1">Métrica del Insomnio</span>
+                        <p class="font-jakarta text-xs text-slate-400">Porcentaje de noches de vigilia dedicadas a vos</p>
+                    </div>
+
+                    <div class="flex items-center gap-4 bg-hyrule-sapphire px-6 py-3 rounded-lg border border-hyrule-gold/40">
+                        <div class="relative flex items-center justify-center">
+                            <svg class="w-12 h-12 transform -rotate-90">
+                                <circle cx="24" cy="24" r="20" stroke="currentColor" stroke-width="4" class="text-slate-800" fill="transparent"/>
+                                <circle id="gaugeCircle" cx="24" cy="24" r="20" stroke="currentColor" stroke-width="4" class="text-hyrule-gold" fill="transparent" stroke-dasharray="125.6" stroke-dashoffset="125.6"/>
+                            </svg>
+                            <span class="absolute text-[9px] font-mono text-hyrule-cyan font-bold">89%</span>
+                        </div>
+                        <span id="insomniaCounter" class="font-outfit text-3xl sm:text-4xl font-black text-hyrule-gold glow-gold">0.0%</span>
+                    </div>
+                </div>
+
+                <!-- Minijuego 2: Antorchas con cambio de color reactivo -->
+                <div class="mt-8 flex flex-col items-center gap-3">
+                    <span class="font-outfit text-[11px] text-hyrule-cyan uppercase font-bold tracking-widest">Enciende las 3 Antorchas de Vigilia:</span>
+                    <div class="flex items-center gap-4">
+                        <button onclick="lightTorch(0, 2)" id="torch0" class="p-3.5 rounded-full bg-slate-900 border border-slate-700 text-slate-600 transition-all hover:scale-110 cursor-pointer" title="Antorcha 1">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 1-4 4-6 1.286 1.838 2.05 4.316 1.157 7.157.94-1.286 1.488-2.735 1.5-4.5 2.5 3 2.5 7.5 0 12z"/></svg>
+                        </button>
+                        <button onclick="lightTorch(1, 2)" id="torch1" class="p-3.5 rounded-full bg-slate-900 border border-slate-700 text-slate-600 transition-all hover:scale-110 cursor-pointer" title="Antorcha 2">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 1-4 4-6 1.286 1.838 2.05 4.316 1.157 7.157.94-1.286 1.488-2.735 1.5-4.5 2.5 3 2.5 7.5 0 12z"/></svg>
+                        </button>
+                        <button onclick="lightTorch(2, 2)" id="torch2" class="p-3.5 rounded-full bg-slate-900 border border-slate-700 text-slate-600 transition-all hover:scale-110 cursor-pointer" title="Antorcha 3">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 1-4 4-6 1.286 1.838 2.05 4.316 1.157 7.157.94-1.286 1.488-2.735 1.5-4.5 2.5 3 2.5 7.5 0 12z"/></svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: CHAPTER 2 (Voluntades Volátiles) -->
+        <section class="snap-section reveal-node">
+            <div class="content-panel-gold rounded-2xl w-full border-l-4 border-l-hyrule-gold">
+                <div class="flex items-center gap-2 mb-6 max-w-3xl mx-auto">
+                    <span class="w-2.5 h-2.5 rounded-full bg-hyrule-gold animate-ping"></span>
+                    <span class="font-outfit text-xs font-bold text-hyrule-gold tracking-widest uppercase">I. Voluntades Volátiles</span>
+                </div>
+                <p class="text-xl sm:text-3xl md:text-4xl text-slate-100 font-jakarta leading-relaxed italic font-normal max-w-3xl mx-auto mb-8">
+                    "Las palabras van y vienen porque son de eso que están hechas, de instantes amasados con voluntades volátiles. Espuma de intención que brilla un segundo en la superficie del aire y luego se disuelve, recordándonos que todo aquello que no se traduce en actos, le pertenece al viento por naturaleza."
+                </p>
+
+                <!-- Minijuego 3: SLIDER CURVO REAL PERFECCIONADO (Sustitución Exacta con SVG Dashoffset) -->
+                <div class="flex flex-col items-center gap-3 w-full max-w-xs mx-auto">
+                    <span class="font-outfit text-[11px] tracking-widest text-hyrule-cyan uppercase font-bold">Desliza la Brisa por el Arco Curvo ➔</span>
+                    <div class="relative w-64 h-32 flex items-center justify-center select-none cursor-pointer" id="curvedSliderContainer">
+                        <svg class="w-full h-full overflow-visible" viewBox="0 0 200 110" id="curvedSvg">
+                            <!-- Track Fondo Gris -->
+                            <path id="curvedArcBase" d="M 20,95 A 80,65 0 0,1 180,95" stroke="#1e293b" stroke-width="12" stroke-linecap="round" fill="none"/>
+                            <!-- Track Azul que cubre 100% IDÉNTICO sobre el gris sin desfases -->
+                            <path id="curvedArcProgress" d="M 20,95 A 80,65 0 0,1 180,95" stroke="#38bdf8" stroke-width="12" stroke-linecap="round" fill="none"/>
+                            <!-- Tirador Deslizable -->
+                            <g id="curvedThumb" transform="translate(20, 95)" class="cursor-grab active:cursor-grabbing">
+                                <circle cx="0" cy="0" r="16" fill="#38bdf8" stroke="#ffffff" stroke-width="3" class="drop-shadow-[0_0_12px_rgba(56,189,248,0.95)]"/>
+                                <circle cx="0" cy="0" r="6" fill="#020617"/>
+                            </g>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: CHAPTER 3 (Arquitectura Secreta) -->
+        <section class="snap-section reveal-node">
+            <div class="content-panel rounded-2xl w-full">
+                <div class="flex items-center gap-2 mb-6 max-w-3xl mx-auto">
+                    <span class="w-2.5 h-2.5 rounded-full bg-hyrule-cyan"></span>
+                    <span class="font-outfit text-xs font-bold text-hyrule-cyan tracking-widest uppercase">II. Arquitectura Secreta</span>
+                </div>
+                <p class="text-xl sm:text-3xl md:text-4xl text-slate-100 font-jakarta leading-relaxed font-light max-w-3xl mx-auto mb-8">
+                    Por eso prefiero guardarnos en los entrelíneas, en la arquitectura secreta de una conversación al alba. En el código indescifrable de las cosas que no necesitan explicarse para existir.
+                </p>
+
+                <!-- Minijuego 4: Puzzle Rotativo de la Trifuerza -->
+                <div class="flex flex-col items-center gap-3 max-w-3xl mx-auto">
+                    <span class="font-outfit text-xs text-hyrule-gold uppercase font-bold tracking-widest">Rotar Fragmentos para Encajar (Haz clic en cada uno):</span>
+                    <div class="flex items-center gap-6">
+                        <button onclick="rotateTriforcePiece(0, 4)" id="triPiece0" class="p-4 rounded-xl bg-hyrule-sapphire border border-hyrule-gold/40 text-hyrule-gold transition-all hover:scale-105 cursor-pointer transform rotate-90" title="Girar Fragmento 1">
+                            <svg class="w-8 h-8" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L1 21h22L12 2z"/></svg>
+                        </button>
+                        <button onclick="rotateTriforcePiece(1, 4)" id="triPiece1" class="p-4 rounded-xl bg-hyrule-sapphire border border-hyrule-gold/40 text-hyrule-gold transition-all hover:scale-105 cursor-pointer transform -rotate-90" title="Girar Fragmento 2">
+                            <svg class="w-8 h-8" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L1 21h22L12 2z"/></svg>
+                        </button>
+                        <button onclick="rotateTriforcePiece(2, 4)" id="triPiece2" class="p-4 rounded-xl bg-hyrule-sapphire border border-hyrule-gold/40 text-hyrule-gold transition-all hover:scale-105 cursor-pointer transform rotate-180" title="Girar Fragmento 3">
+                            <svg class="w-8 h-8" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L1 21h22L12 2z"/></svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 5: CHAPTER 4 (El Laberinto y el Mapa) -->
+        <section class="snap-section reveal-node">
+            <div class="content-panel rounded-2xl w-full border-r-4 border-r-hyrule-cyan">
+                <p class="text-xl sm:text-3xl md:text-4xl text-slate-100 font-jakarta leading-relaxed font-light max-w-3xl mx-auto mb-8">
+                    Hay laberintos que no se construyen para perderse, sino para encontrar a alguien adentro; un mapa sin coordenadas suspendido entre lo que fuimos ayer y el misterio de lo que no sabemos que viene.
+                </p>
+
+                <!-- Minijuego 5: Deslizable de Eclipse con Cambio Dinámico de Color -->
+                <div id="eclipseBox" class="flex flex-col items-center gap-3 w-full max-w-xs mx-auto p-4 rounded-2xl bg-hyrule-gold/20 border border-hyrule-gold/40 transition-colors duration-300">
+                    <span id="eclipseLabel" class="font-outfit text-[11px] tracking-widest text-hyrule-brightGold uppercase font-bold">Desliza para Ocultar el Sol ➔</span>
+                    <input 
+                        type="range" 
+                        min="0" 
+                        max="100" 
+                        value="0" 
+                        id="slider5" 
+                        class="sheikah-slider" 
+                        oninput="handleEclipseSlide(this, 5)"
+                    />
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 6: CHAPTER 5 (La Ecuación) -->
+        <section class="snap-section reveal-node">
+            <div class="content-panel-gold rounded-2xl w-full text-center">
+                <p class="text-xl sm:text-3xl md:text-4xl text-hyrule-paleGold font-jakarta italic leading-relaxed font-medium max-w-3xl mx-auto mb-8">
+                    "Somos una ecuación sin resolver, un reloj que marca la hora exacta en un idioma que nadie más habla. Un par de sombras que aprendieron a traducirse en medio del eclipse."
+                </p>
+
+                <!-- Minijuego 6: Constelación Estelar SVG Interactiva -->
+                <div class="flex flex-col items-center gap-3 max-w-3xl mx-auto">
+                    <span class="font-outfit text-xs text-hyrule-cyan uppercase font-bold tracking-widest">Conecta los 3 Nodos Estelares:</span>
+                    <div class="relative w-64 h-32 bg-hyrule-deepVoid/90 rounded-2xl border border-hyrule-cyan/30 flex items-center justify-around p-4">
+                        <button onclick="connectStarNode(0, 6)" id="star0" class="p-3 rounded-full bg-slate-900 border border-slate-700 text-slate-500 transition-all hover:scale-125 cursor-pointer z-10">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        </button>
+                        <button onclick="connectStarNode(1, 6)" id="star1" class="p-3 rounded-full bg-slate-900 border border-slate-700 text-slate-500 transition-all hover:scale-125 cursor-pointer z-10">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        </button>
+                        <button onclick="connectStarNode(2, 6)" id="star2" class="p-3 rounded-full bg-slate-900 border border-slate-700 text-slate-500 transition-all hover:scale-125 cursor-pointer z-10">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 7: CHAPTER 6 (Geometría Abstracta) -->
+        <section class="snap-section reveal-node">
+            <div class="content-panel rounded-2xl w-full">
+                <p class="text-xl sm:text-3xl md:text-4xl text-slate-100 font-jakarta leading-relaxed font-light mb-6 max-w-3xl mx-auto">
+                    Por eso nos habito más allá de la sintaxis. En la geometría abstracta de un impulso, en el peso de la luz cuando atraviesa una idea antes de nombrarla.
+                </p>
+                <p class="text-xl sm:text-3xl md:text-4xl text-hyrule-cyan font-jakarta italic leading-relaxed font-normal max-w-3xl mx-auto mb-8">
+                    Seremos siempre la curva invisible donde el tiempo pierde su rumbo; esa constelación de parpadeos que solo cobra sentido cuando el observador se olvida de buscar una respuesta.
+                </p>
+
+                <!-- Minijuego 7: Deslizable Ondulado de Niebla -->
+                <div class="flex flex-col items-center gap-3 w-full max-w-xs mx-auto">
+                    <span class="font-outfit text-[11px] tracking-widest text-hyrule-cyan uppercase font-bold">Corta la Niebla Sagrada ➔</span>
+                    <input 
+                        type="range" 
+                        min="0" 
+                        max="100" 
+                        value="0" 
+                        id="slider7" 
+                        class="sheikah-slider sheikah-slider-cyan" 
+                        oninput="handleSlideUnlock(this, 7)"
+                    />
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 8: CHAPTER 7 (El Templo del Tiempo & Master Sword) -->
+        <section class="snap-section reveal-node">
+            <div id="pedestalCard" class="content-panel-gold rounded-2xl w-full text-center transition-all duration-500 hover:border-hyrule-gold/70 cursor-pointer group">
+                <div class="max-w-3xl mx-auto">
+                    <span class="font-outfit text-xs sm:text-sm text-hyrule-gold tracking-widest uppercase block mb-2 font-bold">El Templo del Tiempo</span>
+                    <h3 class="font-cinzel text-2xl sm:text-4xl text-white font-bold mb-6 tracking-wide">
+                        Hyrule y sus Reinos Perdidos
+                    </h3>
+
+                    <p class="text-lg sm:text-2xl text-slate-200 font-jakarta leading-relaxed font-light mb-8">
+                        Por eso preferí inmortalizar estos garabatos sobre un gusto tuyo que inculcaste en mí: el concepto que me diste sobre Hyrule y sus reinos perdidos. En esta ocasión, cambiamos los roles de la leyenda: <span class="text-hyrule-cyan font-medium italic underline decoration-hyrule-cyan/50 underline-offset-8">vos la espada que atraviesa la niebla, yo el mito que espera al final del templo.</span>
+                    </p>
+
+                    <!-- Vector SVG Pedestal & Master Sword -->
+                    <div class="relative w-full max-w-md mx-auto py-2 flex flex-col items-center justify-center">
+                        <div id="pedestalAura" class="absolute w-64 h-64 rounded-full bg-hyrule-cyan/20 blur-3xl transition-all duration-700 pointer-events-none group-hover:scale-125 group-hover:bg-hyrule-gold/30"></div>
+
+                        <div class="relative z-10 transform transition-transform duration-500 group-hover:scale-105">
+                            <svg class="w-56 h-56 sm:w-72 sm:h-72 drop-shadow-[0_0_25px_rgba(56,189,248,0.45)] transition-all duration-500" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="150" cy="150" r="135" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="4 4" opacity="0.45" class="animate-spin-slow"/>
+                                <circle cx="150" cy="150" r="120" stroke="#f59e0b" stroke-width="1" opacity="0.35"/>
+                                
+                                <g transform="translate(150, 45)" fill="#f59e0b" class="drop-shadow-[0_0_10px_rgba(245,158,11,0.85)]">
+                                    <path d="M0 -15 L13 10 L-13 10 Z"/>
+                                    <path d="M-14 11 L-1 35 L-27 35 Z"/>
+                                    <path d="M14 11 L27 35 L1 35 Z"/>
+                                </g>
+
+                                <g id="masterSwordGroup" class="transition-all duration-500">
+                                    <path d="M150 70 L156 195 L150 205 L144 195 Z" fill="url(#bladeGlow)" opacity="0.9"/>
+                                    <path d="M150 75 L154 185 L150 195 L146 185 Z" fill="#e0f2fe"/>
+                                    <line x1="150" y1="75" x2="150" y2="185" stroke="#38bdf8" stroke-width="1.5"/>
+
+                                    <path d="M150 185 L125 172 L115 182 L142 195 L150 192 L158 195 L185 182 L175 172 Z" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
+                                    <circle cx="150" cy="188" r="3" fill="#38bdf8"/>
+
+                                    <rect x="147.5" y="195" width="5" height="22" rx="2" fill="#2563eb"/>
+                                    <circle cx="150" cy="222" r="5" fill="#f59e0b" stroke="#fef08a" stroke-width="1"/>
+                                </g>
+
+                                <path d="M90 250 L110 225 L190 225 L210 250 L230 270 L70 270 Z" fill="#070d24" stroke="#1e293b" stroke-width="2"/>
+                                <path d="M120 242 H180" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" opacity="0.85" class="animate-pulse"/>
+                                <circle cx="150" cy="242" r="3" fill="#f59e0b"/>
+
+                                <g transform="translate(150, 215)">
+                                    <path d="M0 -10 C-8 -25 -20 -15 -10 0 C-25 8 -15 20 0 10 C15 20 25 8 10 0 C20 -15 8 -25 0 -10 Z" fill="#38bdf8" opacity="0.8"/>
+                                    <circle cx="0" cy="0" r="4" fill="#fef08a"/>
+                                </g>
+
+                                <defs>
+                                    <linearGradient id="bladeGlow" x1="150" y1="70" x2="150" y2="205" gradientUnits="userSpaceOnUse">
+                                        <stop offset="0%" stop-color="#e0f2fe"/>
+                                        <stop offset="50%" stop-color="#38bdf8"/>
+                                        <stop offset="100%" stop-color="#f59e0b"/>
+                                    </linearGradient>
+                                </defs>
+                            </svg>
+                        </div>
+
+                        <button 
+                            id="pedestalBtn"
+                            onclick="handlePedestalTap('pedestalBtn', 8, 3)"
+                            class="mt-4 flex items-center gap-2 px-6 py-2.5 rounded-full bg-hyrule-deepVoid/95 border border-hyrule-gold/50 text-hyrule-gold font-outfit text-xs tracking-widest uppercase font-bold shadow-xl hover:border-hyrule-cyan transition-colors cursor-pointer"
+                        >
+                            <span>Pulsa 3 veces sobre el Pedestal</span>
+                            <span id="pedestalBtn-count" class="px-2 py-0.5 rounded-full bg-hyrule-gold/20 text-hyrule-brightGold font-mono text-xs">0/3</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 9: CHAPTER 8 (Descargar Ilustración Card - Nueva Pestaña target="_blank") -->
+        <section class="snap-section reveal-node">
+            <div class="content-panel rounded-2xl w-full text-center">
+                <div class="max-w-3xl mx-auto">
+                    <span class="font-outfit text-xs text-hyrule-cyan tracking-widest uppercase font-bold block mb-1">Recuerdo Especial</span>
+                    <h3 class="font-cinzel text-2xl sm:text-4xl text-white font-bold tracking-wide mb-2">
+                        Ilustración Dedicada
+                    </h3>
+                    <p class="font-jakarta text-xs sm:text-sm text-slate-300 max-w-lg mx-auto mb-6">
+                        Guarda este recuerdo especial en alta resolución directamente en tu dispositivo.
+                    </p>
+
+                    <!-- Preview Frame -->
+                    <div class="relative w-full max-w-lg mx-auto rounded-xl border border-hyrule-cyan/35 bg-hyrule-deepVoid/95 p-3 sm:p-4 shadow-glow-cyan overflow-hidden group mb-6">
+                        <div class="relative rounded-lg overflow-hidden bg-hyrule-cobaltNight flex items-center justify-center min-h-[220px]">
+                            <img 
+                                id="drawingPreview" 
+                                src="./assets/dibujo.png" 
+                                alt="Ilustración Especial Link & Zelda" 
+                                class="w-full h-auto max-h-[420px] object-contain rounded-lg transition-transform duration-500 group-hover:scale-[1.02]"
+                                onerror="if (this.src.indexOf('Zelda_Link_Especial.jpg') === -1) { this.src='./Zelda_Link_Especial.jpg'; } else { this.onerror=null; }"
+                            />
+                        </div>
+                    </div>
+
+                    <!-- Download Button -->
+                    <div class="flex flex-col items-center gap-3 text-center">
+                        <a 
+                            id="downloadLinkBtn"
+                            onclick="unlockSection(9)"
+                            href="./assets/dibujo.png" 
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            download="Zelda_Link_Especial.png" 
+                            class="group relative inline-flex items-center gap-3 px-8 py-4 rounded-2xl bg-gradient-to-r from-hyrule-gold via-amber-500 to-hyrule-brightGold text-hyrule-deepVoid font-outfit font-black text-sm sm:text-base tracking-wide shadow-glow-gold hover:shadow-glow-cyan hover:scale-[1.03] active:scale-95 transition-all duration-300 cursor-pointer"
+                        >
+                            <svg class="w-5 h-5 text-hyrule-deepVoid transition-transform duration-300 group-hover:translate-y-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+                            </svg>
+                            <span>Descargar Ilustración</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 10: CHAPTER 9 (Banner Final ¡Feliz Cumpleaños!) -->
+        <section class="snap-section reveal-node">
+            <div class="relative inline-block w-full max-w-2xl text-center">
+                <div class="absolute -inset-1 bg-gradient-to-r from-hyrule-gold via-hyrule-cyan to-hyrule-gold rounded-3xl blur-2xl opacity-40 animate-pulse-glow"></div>
+                
+                <div class="relative bg-hyrule-deepVoid/95 border border-hyrule-gold/60 rounded-3xl p-8 sm:p-12 md:p-14 shadow-2xl backdrop-blur-2xl">
+                    <svg class="w-10 h-10 text-hyrule-gold mx-auto mb-4" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2L1 21h22L12 2zm0 4.2L18.8 18H5.2L12 6.2z"/>
+                    </svg>
+
+                    <h2 class="font-cinzel text-4xl sm:text-6xl md:text-7xl text-hyrule-gold font-black tracking-wide mb-4 glow-gold">
+                        ¡Feliz Cumpleaños!
+                    </h2>
+
+                    <div class="sheikah-divider my-4"></div>
+
+                    <p class="font-jakarta text-2xl sm:text-4xl text-hyrule-cyan italic font-bold tracking-wide">
+                        ...olor a pata.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Minijuego 10: Deslizable para abrir el apartado final nostálgico -->
+            <div class="mt-8 flex flex-col items-center gap-3 w-full max-w-xs mx-auto">
+                <span class="font-outfit text-[11px] tracking-widest text-hyrule-gold uppercase font-bold">Desliza para la última memoria ➔</span>
+                <input 
+                    type="range" 
+                    min="0" 
+                    max="100" 
+                    value="0" 
+                    id="slider10" 
+                    class="sheikah-slider" 
+                    oninput="handleSlideUnlock(this, 10)"
+                />
+            </div>
+        </section>
+
+        <!-- SECTION 11: CHAPTER 10 (Apartado Propio Nostálgico — "¿Vamos de vuelta...?") -->
+        <section class="snap-section reveal-node">
+            <div class="content-panel-gold rounded-2xl w-full text-center max-w-2xl mx-auto border border-hyrule-gold/60 shadow-glow-gold p-8 sm:p-12">
+                <span class="font-outfit text-xs text-hyrule-cyan tracking-widest uppercase font-bold block mb-3">Reinicio de la Leyenda</span>
+                <h4 class="font-cinzel text-3xl sm:text-5xl text-hyrule-paleGold font-bold mb-4 glow-gold">
+                    ¿Vamos de vuelta...?
+                </h4>
+                <p class="font-jakarta text-sm sm:text-lg text-slate-200 italic mb-8 max-w-md mx-auto">
+                    "Regresar a donde el tiempo empezó a contar de otra manera."
+                </p>
+
+                <button 
+                    onclick="scrollToTopAndResetAll()" 
+                    class="inline-flex items-center gap-3 px-8 py-4 rounded-full border border-hyrule-gold bg-gradient-to-r from-hyrule-gold/20 via-hyrule-gold/40 to-hyrule-gold/20 text-hyrule-brightGold font-outfit text-xs sm:text-sm tracking-widest uppercase font-black hover:scale-105 transition-all cursor-pointer shadow-glow-gold"
+                >
+                    <span>Volver arriba...</span>
+                    <svg class="w-4 h-4 text-hyrule-brightGold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 10l7-7m0 0l7 7m-7-7v18"/>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Footer -->
+            <footer class="w-full text-center pt-10 text-slate-500 font-outfit text-xs tracking-widest">
+                <p>Eterno e Inmortalizado · Leyenda de la Mocosa</p>
+            </footer>
+        </section>
+
+    </main>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 bg-hyrule-deepVoid/95 border border-hyrule-gold/60 text-hyrule-paleGold px-6 py-3 rounded-full text-sm font-outfit tracking-wide shadow-2xl opacity-0 pointer-events-none translate-y-4 transition-all duration-300 flex items-center gap-2">
+        <svg class="w-4 h-4 text-hyrule-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+        </svg>
+        <span id="toastMessage">Texto copiado al portapapeles</span>
+    </div>
+
+    <script>
+        // 1. Ambient Cursor Glow Tracker
+        const cursorGlow = document.getElementById('cursorGlow');
+        window.addEventListener('pointermove', (e) => {
+            cursorGlow.style.left = `${e.clientX}px`;
+            cursorGlow.style.top = `${e.clientY}px`;
+        });
+
+        // 2. Soft Reveal Observer
+        const revealNodes = document.querySelectorAll('.reveal-node');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                }
+            });
+        }, { threshold: 0.12 });
+
+        revealNodes.forEach(node => observer.observe(node));
+
+        // 3. Web Audio Synthesizer (Arpa de Hyrule - SIEMPRE ACTIVADA)
+        let audioCtx = null;
+        let isAudioPlaying = true;
+        let audioTimer = null;
+
+        const zeldaScale = [261.63, 293.66, 329.63, 392.00, 440.00, 523.25, 587.33, 659.25, 783.99];
+
+        function playHarpTone(freq) {
+            if (!audioCtx) return;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+
+            gain.gain.setValueAtTime(0, audioCtx.currentTime);
+            gain.gain.linearRampToValueAtTime(0.09, audioCtx.currentTime + 0.1);
+            gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 3.5);
+
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            osc.start();
+            osc.stop(audioCtx.currentTime + 3.6);
+        }
+
+        function initAudioEngine() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            if (!audioTimer) {
+                playHarpTone(zeldaScale[0]);
+                setTimeout(() => playHarpTone(zeldaScale[3]), 250);
+
+                audioTimer = setInterval(() => {
+                    if (isAudioPlaying) {
+                        const randomFreq = zeldaScale[Math.floor(Math.random() * zeldaScale.length)];
+                        playHarpTone(randomFreq);
+                    }
+                }, 1600);
+            }
+        }
+
+        window.addEventListener('pointerdown', initAudioEngine, { once: false });
+        window.addEventListener('keydown', initAudioEngine, { once: false });
+
+        const soundToggle = document.getElementById('soundToggle');
+        const soundText = document.getElementById('soundText');
+        const audioDot = document.getElementById('audioDot');
+        const audioPing = document.getElementById('audioPing');
+
+        soundToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            initAudioEngine();
+            if (isAudioPlaying) {
+                isAudioPlaying = false;
+                soundText.innerText = "Arpa Pausada";
+                audioDot.classList.replace('bg-hyrule-gold', 'bg-slate-500');
+                audioPing.classList.add('opacity-0');
+            } else {
+                isAudioPlaying = true;
+                soundText.innerText = "Arpa de Hyrule (Activa)";
+                audioDot.classList.replace('bg-slate-500', 'bg-hyrule-gold');
+                audioPing.classList.remove('opacity-0');
+            }
+        });
+
+        // 4. Perfect SVG Dashoffset Curved Arc Drag Engine (100% Sin Desfases ni Líneas Paralelas)
+        let isCurvedDragging = false;
+        let curvedUnlocked = false;
+
+        const curvedContainer = document.getElementById('curvedSliderContainer');
+        const curvedThumb = document.getElementById('curvedThumb');
+        const curvedBase = document.getElementById('curvedArcBase');
+        const curvedProgress = document.getElementById('curvedArcProgress');
+        let curvedPathLength = 0;
+
+        function setupCurvedPath() {
+            if (curvedBase && curvedProgress) {
+                curvedPathLength = curvedBase.getTotalLength();
+                curvedProgress.style.strokeDasharray = `${curvedPathLength} ${curvedPathLength}`;
+                curvedProgress.style.strokeDashoffset = `${curvedPathLength}`;
+                curvedBase.style.strokeDasharray = `${curvedPathLength} ${curvedPathLength}`;
+                curvedBase.style.strokeDashoffset = `0`;
+            }
+        }
+        setupCurvedPath();
+
+        function updateCurvedSlider(progress) {
+            progress = Math.max(0, Math.min(1, progress));
+            
+            if (curvedProgress && curvedBase && curvedPathLength > 0) {
+                const filledLength = curvedPathLength * progress;
+                // Track cyan: revela desde el inicio (0) hasta el tirador (filledLength)
+                curvedProgress.style.strokeDashoffset = `${curvedPathLength - filledLength}`;
+                // Track gris: se desplaza para existir ÚNICAMENTE por delante del tirador (de filledLength a final)
+                curvedBase.style.strokeDashoffset = `${-filledLength}`;
+            }
+
+            if (curvedBase && curvedThumb && curvedPathLength > 0) {
+                const pt = curvedBase.getPointAtLength(curvedPathLength * progress);
+                curvedThumb.setAttribute('transform', `translate(${pt.x}, ${pt.y})`);
+            }
+
+            if (progress >= 0.92 && !curvedUnlocked) {
+                curvedUnlocked = true;
+                isCurvedDragging = false;
+                unlockSection(3);
+            }
+        }
+
+        if (curvedContainer) {
+            function handleCurvedPointer(e) {
+                if (curvedUnlocked) return;
+                const rect = curvedContainer.getBoundingClientRect();
+                const progress = (e.clientX - rect.left) / rect.width;
+                updateCurvedSlider(progress);
+            }
+
+            curvedContainer.addEventListener('pointerdown', (e) => {
+                isCurvedDragging = true;
+                try { curvedContainer.setPointerCapture(e.pointerId); } catch(err){}
+                handleCurvedPointer(e);
+            });
+
+            curvedContainer.addEventListener('pointermove', (e) => {
+                if (isCurvedDragging) {
+                    handleCurvedPointer(e);
+                }
+            });
+
+            curvedContainer.addEventListener('pointerup', (e) => {
+                isCurvedDragging = false;
+                try { curvedContainer.releasePointerCapture(e.pointerId); } catch(err){}
+            });
+        }
+
+        // 5. Tactile Minijuegos Handlers
+
+        function handleSlideUnlock(sliderEl, targetIdx) {
+            initAudioEngine();
+            if (parseInt(sliderEl.value) >= 90) {
+                sliderEl.value = 100;
+                sliderEl.disabled = true;
+                unlockSection(targetIdx);
+            }
+        }
+
+        function handleEclipseSlide(sliderEl, targetIdx) {
+            initAudioEngine();
+            const val = parseInt(sliderEl.value);
+            const box = document.getElementById('eclipseBox');
+            const label = document.getElementById('eclipseLabel');
+
+            if (val < 40) {
+                box.style.backgroundColor = 'rgba(245, 158, 11, 0.3)';
+                label.style.color = '#fbbf24';
+            } else if (val < 80) {
+                box.style.backgroundColor = 'rgba(56, 189, 248, 0.3)';
+                label.style.color = '#38bdf8';
+            } else {
+                box.style.backgroundColor = 'rgba(2, 6, 23, 0.9)';
+                label.style.color = '#e0f2fe';
+            }
+
+            if (val >= 92) {
+                sliderEl.value = 100;
+                sliderEl.disabled = true;
+                unlockSection(targetIdx);
+            }
+        }
+
+        const litTorches = [false, false, false];
+        function lightTorch(torchIdx, targetIdx) {
+            initAudioEngine();
+            litTorches[torchIdx] = true;
+            const btn = document.getElementById(`torch${torchIdx}`);
+            if (btn) {
+                btn.classList.remove('bg-slate-900', 'text-slate-600', 'border-slate-700');
+                btn.classList.add('bg-hyrule-gold/20', 'text-hyrule-gold', 'border-hyrule-gold', 'shadow-glow-gold');
+            }
+            playHarpTone(300 + (torchIdx * 120));
+
+            if (litTorches.every(t => t === true)) {
+                setTimeout(() => unlockSection(targetIdx), 350);
+            }
+        }
+
+        const rotations = [90, -90, 180];
+        function rotateTriforcePiece(pieceIdx, targetIdx) {
+            initAudioEngine();
+            rotations[pieceIdx] = (rotations[pieceIdx] + 90) % 360;
+            const el = document.getElementById(`triPiece${pieceIdx}`);
+            if (el) {
+                el.style.transform = `rotate(${rotations[pieceIdx]}deg)`;
+                if (rotations[pieceIdx] === 0) {
+                    el.classList.add('shadow-glow-gold', 'border-hyrule-brightGold');
+                } else {
+                    el.classList.remove('shadow-glow-gold', 'border-hyrule-brightGold');
+                }
+            }
+            playHarpTone(400 + (pieceIdx * 100));
+
+            if (rotations.every(r => r === 0)) {
+                setTimeout(() => unlockSection(targetIdx), 350);
+            }
+        }
+
+        const connectedStars = [false, false, false];
+        function connectStarNode(starIdx, targetIdx) {
+            initAudioEngine();
+            connectedStars[starIdx] = true;
+            const btn = document.getElementById(`star${starIdx}`);
+            if (btn) {
+                btn.classList.remove('bg-slate-900', 'text-slate-500', 'border-slate-700');
+                btn.classList.add('bg-hyrule-cyan/20', 'text-hyrule-cyan', 'border-hyrule-cyan', 'shadow-glow-cyan');
+            }
+            playHarpTone(500 + (starIdx * 150));
+
+            if (connectedStars.every(s => s === true)) {
+                setTimeout(() => unlockSection(targetIdx), 350);
+            }
+        }
+
+        const pedestalTapCounts = {};
+        function handlePedestalTap(btnId, targetIdx, requiredClicks = 3) {
+            initAudioEngine();
+            if (!pedestalTapCounts[btnId]) pedestalTapCounts[btnId] = 0;
+            pedestalTapCounts[btnId]++;
+            
+            const badge = document.getElementById(btnId + '-count');
+            if (badge) badge.innerText = `${pedestalTapCounts[btnId]}/${requiredClicks}`;
+            
+            const aura = document.getElementById('pedestalAura');
+            if (aura) aura.classList.add('scale-125', 'bg-hyrule-gold/40');
+
+            playHarpTone(300 * pedestalTapCounts[btnId]);
+
+            if (pedestalTapCounts[btnId] >= requiredClicks) {
+                const btn = document.getElementById(btnId);
+                if (btn) btn.disabled = true;
+                unlockSection(targetIdx);
+            }
+        }
+
+        // 6. Section Lock & Smooth Scroll Controller
+        const sections = document.querySelectorAll('.snap-section');
+        let currentIndex = 0;
+        let isAnimating = false;
+        let maxUnlockedIndex = 0;
+        let isSnapEnabled = true;
+
+        const sectionSyncObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !isAnimating) {
+                    const idx = Array.from(sections).indexOf(entry.target);
+                    if (idx !== -1) {
+                        currentIndex = idx;
+                        if (idx === sections.length - 1) {
+                            isSnapEnabled = false;
+                        }
+                    }
+                }
+            });
+        }, { threshold: 0.4 });
+
+        sections.forEach(s => sectionSyncObserver.observe(s));
+
+        function unlockSection(targetIdx) {
+            if (targetIdx > maxUnlockedIndex) {
+                maxUnlockedIndex = targetIdx;
+            }
+
+            initAudioEngine();
+            playHarpTone(523.25);
+            setTimeout(() => playHarpTone(659.25), 140);
+            setTimeout(() => playHarpTone(783.99), 280);
+
+            showToast("✨ ¡Sello roto — Capítulo desbloqueado!");
+
+            setTimeout(() => {
+                scrollToSection(targetIdx);
+            }, 350);
+        }
+
+        function scrollToSection(index) {
+            if (index < 0 || index >= sections.length || isAnimating) return;
+
+            if (index > maxUnlockedIndex) {
+                showToast("🔒 Completa el desafío interactivo para avanzar");
+                return;
+            }
+
+            isAnimating = true;
+            currentIndex = index;
+
+            if (index === sections.length - 1) {
+                isSnapEnabled = false;
+            }
+
+            const targetY = sections[index].offsetTop;
+            const startY = window.scrollY || window.pageYOffset;
+            const distance = targetY - startY;
+            const duration = 1150;
+            const startTime = performance.now();
+
+            function easeOutQuart(t) {
+                return 1 - Math.pow(1 - t, 4);
+            }
+
+            function step(now) {
+                const elapsed = now - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const ease = easeOutQuart(progress);
+                
+                window.scrollTo(0, startY + (distance * ease));
+
+                if (progress < 1) {
+                    requestAnimationFrame(step);
+                } else {
+                    setTimeout(() => { isAnimating = false; }, 100);
+                }
+            }
+            requestAnimationFrame(step);
+        }
+
+        // Dedicated Function to Reset All Minigames and Return to Top
+        function scrollToTopAndResetAll() {
+            maxUnlockedIndex = 0;
+            isSnapEnabled = true;
+
+            // Reset Straight Sliders
+            for (let i = 1; i <= 10; i++) {
+                const sl = document.getElementById(`slider${i}`);
+                if (sl) { sl.value = 0; sl.disabled = false; }
+            }
+
+            // Reset Curved Drag Arc
+            updateCurvedSlider(0);
+            curvedUnlocked = false;
+
+            // Reset Torches
+            for (let i = 0; i < 3; i++) {
+                litTorches[i] = false;
+                const btn = document.getElementById(`torch${i}`);
+                if (btn) {
+                    btn.className = 'p-3.5 rounded-full bg-slate-900 border border-slate-700 text-slate-600 transition-all hover:scale-110 cursor-pointer';
+                }
+            }
+
+            // Reset Triforce Rotation
+            rotations[0] = 90; rotations[1] = -90; rotations[2] = 180;
+            for (let i = 0; i < 3; i++) {
+                const el = document.getElementById(`triPiece${i}`);
+                if (el) {
+                    el.style.transform = `rotate(${rotations[i]}deg)`;
+                    el.classList.remove('shadow-glow-gold', 'border-hyrule-brightGold');
+                }
+            }
+
+            // Reset Eclipse Box
+            const eclipseBox = document.getElementById('eclipseBox');
+            const eclipseLabel = document.getElementById('eclipseLabel');
+            if (eclipseBox) eclipseBox.style.backgroundColor = 'rgba(245, 158, 11, 0.2)';
+            if (eclipseLabel) eclipseLabel.style.color = '#fbbf24';
+
+            // Reset Star Nodes
+            for (let i = 0; i < 3; i++) {
+                connectedStars[i] = false;
+                const btn = document.getElementById(`star${i}`);
+                if (btn) {
+                    btn.className = 'p-3 rounded-full bg-slate-900 border border-slate-700 text-slate-500 transition-all hover:scale-125 cursor-pointer z-10';
+                }
+            }
+
+            // Reset Pedestal Taps
+            pedestalTapCounts['pedestalBtn'] = 0;
+            const pedBadge = document.getElementById('pedestalBtn-count');
+            if (pedBadge) pedBadge.innerText = '0/3';
+            const pedBtn = document.getElementById('pedestalBtn');
+            if (pedBtn) pedBtn.disabled = false;
+
+            showToast("🔄 Leyenda y minijuegos reiniciados. ¡Disfruta el viaje!");
+
+            scrollToSection(0);
+        }
+
+        // Wheel Event Handling
+        let wheelAccumulator = 0;
+        let wheelTimer = null;
+
+        window.addEventListener('wheel', (e) => {
+            const currentScrollY = window.scrollY || window.pageYOffset;
+            if (currentScrollY <= 15 && e.deltaY < 0) {
+                isSnapEnabled = true;
+                currentIndex = 0;
+            }
+
+            if (!isSnapEnabled) return;
+
+            e.preventDefault();
+            if (isAnimating) return;
+
+            wheelAccumulator += e.deltaY;
+            clearTimeout(wheelTimer);
+
+            wheelTimer = setTimeout(() => {
+                if (Math.abs(wheelAccumulator) > 25) {
+                    if (wheelAccumulator > 0) {
+                        if (currentIndex + 1 <= maxUnlockedIndex) {
+                            scrollToSection(currentIndex + 1);
+                        } else {
+                            showToast("🔒 Completa el desafío abajo para desbloquear");
+                        }
+                    } else {
+                        scrollToSection(currentIndex - 1);
+                    }
+                }
+                wheelAccumulator = 0;
+            }, 30);
+        }, { passive: false });
+
+        // Touch Swipe Handling
+        let touchStartY = 0;
+        window.addEventListener('touchstart', (e) => {
+            touchStartY = e.touches[0].clientY;
+        }, { passive: true });
+
+        window.addEventListener('touchend', (e) => {
+            const currentScrollY = window.scrollY || window.pageYOffset;
+            if (currentScrollY <= 15) isSnapEnabled = true;
+            if (!isSnapEnabled || isAnimating) return;
+
+            const touchEndY = e.changedTouches[0].clientY;
+            const diff = touchStartY - touchEndY;
+            if (Math.abs(diff) > 45) {
+                if (diff > 0) {
+                    if (currentIndex + 1 <= maxUnlockedIndex) {
+                        scrollToSection(currentIndex + 1);
+                    } else {
+                        showToast("🔒 Completa el desafío abajo para desbloquear");
+                    }
+                } else {
+                    scrollToSection(currentIndex - 1);
+                }
+            }
+        }, { passive: true });
+
+        // Keyboard Arrow Handling
+        window.addEventListener('keydown', (e) => {
+            const currentScrollY = window.scrollY || window.pageYOffset;
+            if (currentScrollY <= 15) isSnapEnabled = true;
+            if (!isSnapEnabled || isAnimating) return;
+
+            if (e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ') {
+                e.preventDefault();
+                if (currentIndex + 1 <= maxUnlockedIndex) {
+                    scrollToSection(currentIndex + 1);
+                } else {
+                    showToast("🔒 Completa el desafío abajo para desbloquear");
+                }
+            } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
+                e.preventDefault();
+                scrollToSection(currentIndex - 1);
+            }
+        });
+
+        // 7. Insomnia Gauge Animation
+        let counterAnimated = false;
+        const insomniaCounter = document.getElementById('insomniaCounter');
+        const gaugeCircle = document.getElementById('gaugeCircle');
+
+        const gaugeObserver = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting && !counterAnimated) {
+                counterAnimated = true;
+                animateGauge();
+            }
+        }, { threshold: 0.5 });
+
+        if (insomniaCounter) gaugeObserver.observe(insomniaCounter);
+
+        function animateGauge() {
+            const target = 89.9;
+            const duration = 2200;
+            const startTime = performance.now();
+            const circumference = 125.6;
+
+            function update(now) {
+                const elapsed = now - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const easeOut = 1 - Math.pow(1 - progress, 3);
+                
+                const currentVal = easeOut * target;
+                insomniaCounter.innerText = currentVal.toFixed(1) + '%';
+
+                const offset = circumference - (easeOut * (target / 100) * circumference);
+                gaugeCircle.style.strokeDashoffset = offset;
+
+                if (progress < 1) {
+                    requestAnimationFrame(update);
+                } else {
+                    insomniaCounter.innerText = '89.9%';
+                }
+            }
+            requestAnimationFrame(update);
+        }
+
+        // 8. Copy Letter Text
+        const copyBtn = document.getElementById('copyBtn');
+        const toast = document.getElementById('toast');
+
+        const letterContent = `Mocosa.
+
+En el poco tiempo que te conozco dediqué gran mayoría de mi insomnio (un 89.9% para ser exacto) en vos. Cálidas noches donde se proyectan risas, un sentimiento efímero en momentos fugaces que quedarán abrazando el recuerdo.
+
+Las palabras van y vienen porque son de eso que están hechas, de instantes amasados con voluntades volátiles. Espuma de intención que brilla un segundo en la superficie del aire y luego se disuelve, recordándonos que todo aquello que no se traduce en actos, le pertenece al viento por naturaleza.
+
+Por eso prefiero guardarnos en los entrelíneas, en la arquitectura secreta de una conversación al alba. En el código indescifrable de las cosas que no necesitan explicarse para existir.
+
+Hay laberintos que no se construyen para perderse, sino para encontrar a alguien adentro; un mapa sin coordenadas suspendido entre lo que fuimos ayer y el misterio de lo que no sabemos que viene.
+
+Somos una ecuación sin resolver, un reloj que marca la hora exacta en un idioma que nadie más habla. Un par de sombras que aprendieron a traducirse en medio del eclipse.
+
+Por eso nos habito más allá de la sintaxis. En la geometría abstracta de un impulso, en el peso de la luz cuando atraviesa una idea antes de nombrarla. Seremos siempre la curva invisible donde el tiempo pierde su rumbo; esa constelación de parpadeos que solo cobra sentido cuando el observador se olvida de buscar una respuesta.
+
+Por eso preferí inmortalizar estos garabatos sobre un gusto tuyo que inculcaste en mí: el concepto que me diste sobre Hyrule y sus reinos perdidos. En esta ocasión, cambiamos los roles de la leyenda: vos la espada que atraviesa la niebla, yo el mito que espera al final del templo.
+
+Feliz cumpleaños, olor a pata.`;
+
+        copyBtn.addEventListener('click', () => {
+            const textarea = document.createElement('textarea');
+            textarea.value = letterContent;
+            document.body.appendChild(textarea);
+            textarea.select();
+            try {
+                document.execCommand('copy');
+                showToast("Carta copiada al portapapeles");
+            } catch (err) {
+                showToast("Error al copiar");
+            }
+            document.body.removeChild(textarea);
+        });
+
+        function showToast(msg) {
+            document.getElementById('toastMessage').innerText = msg;
+            toast.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-4');
+            toast.classList.add('opacity-100', 'translate-y-0');
+            setTimeout(() => {
+                toast.classList.remove('opacity-100', 'translate-y-0');
+                toast.classList.add('opacity-0', 'pointer-events-none', 'translate-y-4');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
